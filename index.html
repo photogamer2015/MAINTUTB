@@ -186,29 +186,53 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Simulación de escaneo QR
-            const qrButton = document.querySelector('button[aria-label="Activar cámara"]');
-            if (qrButton) {
-                qrButton.addEventListener('click', function () {
-                    alert('Por favor permita el acceso a la cámara para escanear el código QR');
+        document.addEventListener('DOMContentLoaded', function() {
+    // Configuración del escáner QR
+    const qrButton = document.querySelector('.qr-scanner button');
+    const qrStatus = document.getElementById('qr-status');
+    let html5QrcodeScanner;
+    
+    if(qrButton) {
+        qrButton.addEventListener('click', function() {
+            if(!html5QrcodeScanner) {
+                html5QrcodeScanner = new Html5QrcodeScanner(
+                    "qr-reader", 
+                    { fps: 10, qrbox: 250 },
+                    /* verbose= */ false
+                );
+                
+                html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                qrStatus.textContent = "Escaneando...";
+                qrButton.textContent = "Detener cámara";
+            } else {
+                html5QrcodeScanner.clear().then(() => {
+                    html5QrcodeScanner = null;
+                    qrStatus.textContent = "Área de escaneo";
+                    qrButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Activar cámara
+                    `;
                 });
             }
-
-            // Animación para los cards de tipos de fallas
-            const failureCards = document.querySelectorAll('.hover\\:bg-blue-50');
-            failureCards.forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.classList.add('shadow-md');
-                    card.classList.remove('border');
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    card.classList.remove('shadow-md');
-                    card.classList.add('border');
-                });
-            });
         });
+    }
+    
+    function onScanSuccess(decodedText, decodedResult) {
+        alert(`Código QR escaneado: ${decodedText}`);
+        // Aquí puedes procesar el resultado del escaneo
+        html5QrcodeScanner.clear();
+        html5QrcodeScanner = null;
+        qrStatus.textContent = "Escaneo completado";
+    }
+
+    function onScanFailure(error) {
+        console.warn(`Error al escanear: ${error}`);
+    }
+});
+
     </script>
 </body>
 
