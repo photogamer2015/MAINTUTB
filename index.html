@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAINTUTB - Sistema Digital de Mantenimiento</title>
-    <script src="https://unpkg.com/html5-qrcode@latest/dist/html5-qrcode.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/html5-qrcode@latest/dist/html5-qrcode.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f5f5f5;
         }
-
+        
         .gradient-header {
             background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
         }
-
+        
         .qr-scanner {
             border: 3px dashed #3b82f6;
             transition: all 0.3s ease;
         }
-
+        
         .qr-scanner:hover {
             border-color: #2563eb;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
     </style>
 </head>
-
 <body>
     <header class="gradient-header text-white shadow-lg">
         <div class="container mx-auto px-4 py-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4025934e-027f-4db4-91d9-f099b527e66b.png"
-                        alt="Logo de la Universidad Técnica de Babahoyo - Escudo institucional en azul y blanco"
-                        class="h-16 w-16 rounded-full border-2 border-white">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4025934e-027f-4db4-91d9-f099b527e66b.png" alt="Logo de la Universidad Técnica de Babahoyo - Escudo institucional en azul y blanco" class="h-16 w-16 rounded-full border-2 border-white">
                     <div>
                         <h1 class="text-2xl font-bold">Universidad Técnica de Babahoyo</h1>
                         <p class="text-blue-100">Sistema Digital de Mantenimiento</p>
@@ -53,12 +49,9 @@
 
     <main class="container mx-auto px-4 py-8">
         <section class="mb-12 text-center">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Optimizando la gestión de fallas en infraestructura
-                universitaria</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Optimizando la gestión de fallas en infraestructura universitaria</h2>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                MAINTUTB es una solución innovadora que utiliza códigos QR para agilizar el reporte y seguimiento de
-                fallas en la infraestructura de la universidad, permitiendo una respuesta más eficiente del personal de
-                mantenimiento.
+                MAINTUTB es una solución innovadora que utiliza códigos QR para agilizar el reporte y seguimiento de fallas en la infraestructura de la universidad, permitiendo una respuesta más eficiente del personal de mantenimiento.
             </p>
         </section>
 
@@ -72,26 +65,19 @@
                     <li>Reciba confirmación y seguimiento del caso</li>
                 </ol>
                 <div class="mt-6">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/25e5067a-8cb8-4c51-8210-b59ad7ac6cc2.png"
-                        alt="Ejemplo de código QR para mantenimiento con colores institucionales azul y blanco"
-                        class="mx-auto h-48 w-48">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/25e5067a-8cb8-4c51-8210-b59ad7ac6cc2.png" alt="Ejemplo de código QR para mantenimiento con colores institucionales azul y blanco" class="mx-auto h-48 w-48">
                 </div>
             </div>
 
             <div class="qr-scanner bg-white rounded-lg p-6 flex flex-col items-center justify-center">
                 <h3 class="text-2xl font-semibold text-gray-800 mb-4">Escanear Código QR</h3>
                 <div id="qr-reader" class="bg-gray-100 rounded-lg p-4 mb-4 w-64 h-64 flex items-center justify-center">
-                <span class="text-gray-400" id="qr-status">Área de escaneo</span>
+                    <span class="text-gray-400" id="qr-status">Área de escaneo</span>
                 </div>
-
-                <button
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-200 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     Activar cámara
                 </button>
@@ -104,52 +90,44 @@
                 <div class="border rounded-lg p-4 hover:bg-blue-50 transition">
                     <div class="flex items-center mb-2">
                         <div class="bg-red-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         </div>
                         <h4 class="font-medium text-gray-800">Eléctricas</h4>
                     </div>
                     <p class="text-sm text-gray-600">Fallas en iluminación, tomas corrientes, interruptores.</p>
                 </div>
-
+                
                 <div class="border rounded-lg p-4 hover:bg-blue-50 transition">
                     <div class="flex items-center mb-2">
                         <div class="bg-yellow-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                             </svg>
                         </div>
                         <h4 class="font-medium text-gray-800">Fontanería</h4>
                     </div>
                     <p class="text-sm text-gray-600">Fugas de agua, tuberías dañadas, sanitarios.</p>
                 </div>
-
+                
                 <div class="border rounded-lg p-4 hover:bg-blue-50 transition">
                     <div class="flex items-center mb-2">
                         <div class="bg-green-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                             </svg>
                         </div>
                         <h4 class="font-medium text-gray-800">Estructuras</h4>
                     </div>
                     <p class="text-sm text-gray-600">Daños en paredes, techos, pisos, ventanas.</p>
                 </div>
-
+                
                 <div class="border rounded-lg p-4 hover:bg-blue-50 transition">
                     <div class="flex items-center mb-2">
                         <div class="bg-purple-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                             </svg>
                         </div>
                         <h4 class="font-medium text-gray-800">Equipos</h4>
@@ -162,12 +140,9 @@
         <section class="bg-blue-50 rounded-lg p-6 text-center">
             <h3 class="text-2xl font-semibold text-gray-800 mb-4">¿No puede escanear el código QR?</h3>
             <p class="text-gray-600 mb-6">Puede reportar manualmente la falla usando el siguiente botón</p>
-            <button
-                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 inline-flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
                 Reportar falla manualmente
             </button>
@@ -176,9 +151,7 @@
 
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-4 text-center">
-            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/35a76e01-1748-4882-8488-59549ca3c2f1.png"
-                alt="Logo de MAINTUTB - Sistema de mantenimiento de la Universidad Técnica de Babahoyo"
-                class="mx-auto mb-4">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/35a76e01-1748-4882-8488-59549ca3c2f1.png" alt="Logo de MAINTUTB - Sistema de mantenimiento de la Universidad Técnica de Babahoyo" class="mx-auto mb-4">
             <p class="mb-2">Sistema Digital de Mantenimiento</p>
             <p class="text-gray-400 text-sm">Universidad Técnica de Babahoyo © 2023</p>
             <p class="text-gray-400 text-sm mt-4">Departamento de Infraestructura y Mantenimiento</p>
@@ -187,53 +160,84 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    // Configuración del escáner QR
-    const qrButton = document.querySelector('.qr-scanner button');
-    const qrStatus = document.getElementById('qr-status');
-    let html5QrcodeScanner;
-    
-    if(qrButton) {
-        qrButton.addEventListener('click', function() {
-            if(!html5QrcodeScanner) {
-                html5QrcodeScanner = new Html5QrcodeScanner(
-                    "qr-reader", 
-                    { fps: 10, qrbox: 250 },
-                    /* verbose= */ false
-                );
-                
-                html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-                qrStatus.textContent = "Escaneando...";
-                qrButton.textContent = "Detener cámara";
-            } else {
-                html5QrcodeScanner.clear().then(() => {
-                    html5QrcodeScanner = null;
-                    qrStatus.textContent = "Área de escaneo";
-                    qrButton.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Activar cámara
-                    `;
+            // Configuración del escáner QR
+            const qrButton = document.querySelector('.qr-scanner button');
+            const qrStatus = document.getElementById('qr-status');
+            let html5QrcodeScanner;
+            
+            if(qrButton) {
+                qrButton.addEventListener('click', function() {
+                    if(!html5QrcodeScanner) {
+                        // Verificar si el navegador soporta acceso a la cámara
+                        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                            alert("La funcionalidad de cámara no está disponible en este navegador/dispositivo");
+                            return;
+                        }
+
+                        html5QrcodeScanner = new Html5QrcodeScanner(
+                            "qr-reader", 
+                            { 
+                                fps: 10, 
+                                qrbox: 250,
+                                supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+                            },
+                            /* verbose= */ false
+                        );
+                        
+                        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+                        qrStatus.textContent = "Escaneando...";
+                        qrButton.textContent = "Detener cámara";
+                    } else {
+                        html5QrcodeScanner.clear().then(() => {
+                            html5QrcodeScanner = null;
+                            qrStatus.textContent = "Área de escaneo";
+                            qrButton.innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Activar cámara
+                            `;
+                        });
+                    }
                 });
             }
+            
+            function onScanSuccess(decodedText, decodedResult) {
+                alert(`Código QR escaneado: ${decodedText}`);
+                // Aquí puedes procesar el resultado del escaneo
+                html5QrcodeScanner.clear();
+                html5QrcodeScanner = null;
+                qrStatus.textContent = "Escaneo completado";
+            }
+
+            function onScanFailure(error) {
+                console.warn(`Error al escanear: ${error}`);
+                qrStatus.textContent = `Error: ${error}`;
+                if(html5QrcodeScanner) {
+                    html5QrcodeScanner.clear().catch(e => {
+                        console.error("Error al limpiar:", e);
+                    });
+                    html5QrcodeScanner = null;
+                }
+                qrButton.textContent = "Activar cámara";
+            }
+            
+            // Animación para los cards de tipos de fallas
+            const failureCards = document.querySelectorAll('.hover\\:bg-blue-50');
+            failureCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.classList.add('shadow-md');
+                    card.classList.remove('border');
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.classList.remove('shadow-md');
+                    card.classList.add('border');
+                });
+            });
         });
-    }
-    
-    function onScanSuccess(decodedText, decodedResult) {
-        alert(`Código QR escaneado: ${decodedText}`);
-        // Aquí puedes procesar el resultado del escaneo
-        html5QrcodeScanner.clear();
-        html5QrcodeScanner = null;
-        qrStatus.textContent = "Escaneo completado";
-    }
-
-    function onScanFailure(error) {
-        console.warn(`Error al escanear: ${error}`);
-    }
-});
-
     </script>
 </body>
-
 </html>
+
