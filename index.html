@@ -14,6 +14,77 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-M54FH58P');</script>
+
+    <script>
+        // Aquí iría tu función fetchDataWithRetry
+        async function fetchDataWithRetry(url, maxRetries = 5, initialDelay = 1000) {
+            // ... (el código completo de la función que te di antes) ...
+            let currentDelay = initialDelay;
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url);
+
+                    if (response.status === 429) {
+                        console.warn(`Demasiadas solicitudes (429). Intento ${i + 1}/${maxRetries}.`);
+
+                        const retryAfterHeader = response.headers.get('Retry-After');
+                        if (retryAfterHeader) {
+                            const retrySeconds = parseInt(retryAfterHeader, 10);
+                            if (!isNaN(retrySeconds)) {
+                                currentDelay = retrySeconds * 1000;
+                            }
+                        }
+
+                        const exponentialBackoffDelay = initialDelay * Math.pow(2, i);
+                        currentDelay = Math.max(currentDelay, exponentialBackoffDelay);
+
+                        const jitter = Math.random() * 500;
+                        currentDelay += jitter;
+
+                        console.log(`Esperando ${Math.round(currentDelay / 1000)} segundos antes de reintentar...`);
+                        await new Promise(resolve => setTimeout(resolve, currentDelay));
+                    } else if (response.ok) {
+                        console.log("Solicitud exitosa.");
+                        const data = await response.json();
+                        return data;
+                    } else {
+                        const errorText = await response.text();
+                        throw new Error(`Error HTTP ${response.status}: ${errorText}`);
+                    }
+                } catch (error) {
+                    console.error(`Error de red o inesperado: ${error.message}. Intento ${i + 1}/${maxRetries}.`);
+                    const exponentialBackoffDelay = initialDelay * Math.Pow(2, i);
+                    currentDelay = Math.max(currentDelay, exponentialBackoffDelay);
+                    const jitter = Math.random() * 500;
+                    currentDelay += jitter;
+                    console.log(`Esperando ${Math.round(currentDelay / 1000)} segundos antes de reintentar...`);
+                    await new Promise(resolve => setTimeout(resolve, currentDelay));
+                }
+            }
+            throw new Error("Se excedió el número máximo de reintentos para la solicitud.");
+        }
+
+        // Cuando el script está justo antes de </body>, los elementos HTML ya están cargados.
+        // Así que no siempre necesitas 'DOMContentLoaded', pero es una buena práctica para asegurar.
+        const myButton = document.getElementById('myButton');
+        const statusDiv = document.getElementById('status');
+
+        if (myButton && statusDiv) {
+            myButton.addEventListener('click', async () => {
+                statusDiv.textContent = "Cargando...";
+                try {
+                    // Reemplaza con tu URL real
+                    const data = await fetchDataWithRetry('https://jsonplaceholder.typicode.com/todos/1'); 
+                    statusDiv.textContent = "Datos cargados: " + JSON.stringify(data);
+                } catch (error) {
+                    statusDiv.textContent = "Error: " + error.message;
+                }
+            });
+        } else {
+            console.error("Elementos con IDs 'myButton' o 'status' no encontrados.");
+        }
+    </script>
 	
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
