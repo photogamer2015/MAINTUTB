@@ -32,21 +32,22 @@
             background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
         }
 
-	.img-thumbnail {
-
-		width: 200px; 
-		height: 200px; 
-		margin-left:500px;
-	}
+ .img-thumbnail {
+            width: 200px; 
+            height: 200px; 
+            margin: 0 auto; /* Centra la imagen */
+            display: block; /* Asegura que la imagen se comporte como un bloque */
+        }
         
-	       @media (max-width: 768px) {
-       .img-thumbnailmovil {
-           max-width: 100%; /* Se ajusta al 100% del contenedor en pantallas pequeñas */
-           height: auto;
-	   border-radius: 50px;
-	 
-       }
-   }
+        @media (max-width: 768px) {
+            .img-thumbnailmovil {
+                max-width: 100%; /* Se ajusta al 100% del contenedor en pantallas pequeñas */
+                height: auto;
+                border-radius: 50px;
+                margin: 0 auto; /* Centra la imagen en móviles */
+                display: block; /* Asegura que la imagen se comporte como un bloque */
+            }
+        }
    
     </style>
 </head>
