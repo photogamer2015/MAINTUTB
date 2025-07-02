@@ -40,6 +40,13 @@
             border-color: #2563eb;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+	       @media (max-width: 768px) {
+       .img-thumbnail {
+           max-width: 100%; /* Se ajusta al 100% del contenedor en pantallas pequeñas */
+           height: auto;
+       }
+   }
+   
     </style>
 </head>
 <body>
@@ -124,7 +131,7 @@
                 </svg>
                 Reportar fallas 
             </button></a><br><br>
-		<img src="QRCode.png" class="img-thumbnail" class="rounded-top" alt="QRcode_formulario" style="width: 200px; height: auto;">
+		<img src="QRCode.png" class="img-thumbnail" class="rounded-top" alt="QRcode_formulario" style="width: 500px; height: auto;">
             <br><br>
 		<p class="text-sm text-rgba(128, 128, 128, 0.5)-600">Solo puede ver los reportes si tiene una cuenta de administrador.</p><br>
              <a href="https://forms.office.com/Pages/DesignPageV2.aspx?origin=NeoPortalPage&subpage=design&id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAYAAGILM6VUNEZZVE9ZOTRQV01BTkhYUU5IU1JNQ1RMSS4u&analysis=true" target="_blank"><button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-200 inline-flex items-center">
