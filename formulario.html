@@ -167,8 +167,10 @@
 
 <script>
     document.getElementById('generatePDF').onclick = function() {
-        const nombre = document.getElementById('nombre').value;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
+        const nombre = document.getElementById('nombre').value;
         const facultad = document.getElementById('facultad').value;
         const carrera = document.getElementById('carrera').value;
         const curso = document.getElementById('curso').value;
@@ -182,9 +184,6 @@
         const reportado = document.getElementById('reportado').value;
         const solucion = document.getElementById('solucion').value;
         const comentario = document.getElementById('comentario').value;
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
 
         doc.text(`Reportes de Fallas en Infraestructura Universitaria (UTB)`, 10, 10);
         doc.text(`1. Facultad: ${facultad}`, 10, 20);
@@ -202,6 +201,7 @@
         doc.text(`13. Solución Sugerida: ${solucion}`, 10, 140);
         doc.text(`14. Comentarios Adicionales: ${comentario}`, 10, 150);
 
+        // Descargar el PDF
         doc.save(`${nombre}_reporte_fallas.pdf`);
     };
 
@@ -243,9 +243,11 @@
         const ws = XLSX.utils.aoa_to_sheet(ws_data);
         XLSX.utils.book_append_sheet(wb, ws, "Reporte de Fallas");
 
+        // Descargar el archivo Excel
         XLSX.writeFile(wb, `${nombre}_reporte_fallas.xlsx`);
     };
 </script>
 
 </body>
 </html>
+
