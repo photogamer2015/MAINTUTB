@@ -1,253 +1,267 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes de Fallas en Infraestructura Universitaria (UTB)</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
-            overflow: hidden;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-        input:focus, textarea:focus, select:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .form-section {
-            margin-bottom: 20px;
-        }
-        .form-section:last-child {
-            margin-bottom: 0;
-        }
-        .form-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #333;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 5px;
-        }
-        @media (max-width: 600px) {
-            h2 {
-                font-size: 24px;
-            }
-            .form-title {
-                font-size: 16px;
-            }
-            button {
-                font-size: 14px;
-            }
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes de Fallas en Infraestructura Universitaria (UTB)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: auto;
+      overflow: hidden;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .form-section {
+      margin-bottom: 20px;
+    }
+    .form-section:last-child {
+      margin-bottom: 0;
+    }
+    .form-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 5px;
+    }
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 24px;
+      }
+      .form-title {
+        font-size: 16px;
+      }
+      button {
+        font-size: 14px;
+      }
+    }
+    small {
+      display: block;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
 
 <h2>Reportes de Fallas en Infraestructura Universitaria (UTB)</h2>
 <form id="reportForm">
-    <div class="form-section">
-        <div class="form-title">Información General</div>
-        <label for="facultad">1. Facultad:</label>
-        <input type="text" id="facultad" name="facultad" required>
+  <div class="form-section">
+    <div class="form-title">Información General</div>
+    <label for="facultad">1. Facultad:</label>
+    <input type="text" id="facultad" name="facultad" required>
 
-        <label for="carrera">2. Carrera:</label>
-        <input type="text" id="carrera" name="carrera" required>
+    <label for="carrera">2. Carrera:</label>
+    <input type="text" id="carrera" name="carrera" required>
 
-        <label for="curso">3. Curso:</label>
-        <input type="text" id="curso" name="curso" required>
+    <label for="curso">3. Curso:</label>
+    <input type="text" id="curso" name="curso" required>
 
-        <label for="nombre">4. Nombre y Apellido:</label>
-        <input type="text" id="nombre" name="nombre" required>
+    <label for="nombre">4. Nombre y Apellido:</label>
+    <input type="text" id="nombre" name="nombre" required>
 
-        <label for="email">5. Correo Electrónico:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
+    <label for="email">5. Correo Electrónico:</label>
+    <input type="email" id="email" name="email" required>
+  </div>
 
-    <div class="form-section">
-        <div class="form-title">Detalles del Problema</div>
-        <label for="rol">6. Por favor, indica tu rol:</label>
-        <select id="rol" name="rol" required>
-            <option value="Estudiante">Estudiante</option>
-            <option value="Docente">Docente</option>
-        </select>
+  <div class="form-section">
+    <div class="form-title">Detalles del Problema</div>
+    <label for="rol">6. Por favor, indica tu rol:</label>
+    <select id="rol" name="rol" required>
+      <option value="Estudiante">Estudiante</option>
+      <option value="Docente">Docente</option>
+    </select>
 
-        <label for="tipoFalla">7. ¿Qué tipo de falla has detectado?</label>
-        <select id="tipoFalla" name="tipoFalla" required>
-            <option value="Electricidad">Electricidad (luces, enchufes, interruptores)</option>
-            <option value="Agua">Agua (grifos, baños, cañerías)</option>
-            <option value="Infraestructura">Infraestructura física (paredes, pisos, techos)</option>
-            <option value="Tecnologias">Tecnologías (proyectores, pantallas, internet)</option>
-            <option value="Mobiliario">Mobiliario (mesas, sillas, pizarras)</option>
-        </select>
+    <label for="tipoFalla">7. ¿Qué tipo de falla has detectado?</label>
+    <select id="tipoFalla" name="tipoFalla" required>
+      <option value="Electricidad">Electricidad (luces, enchufes, interruptores)</option>
+      <option value="Agua">Agua (grifos, baños, cañerías)</option>
+      <option value="Infraestructura">Infraestructura física (paredes, pisos, techos)</option>
+      <option value="Tecnologias">Tecnologías (proyectores, pantallas, internet)</option>
+      <option value="Mobiliario">Mobiliario (mesas, sillas, pizarras)</option>
+    </select>
 
-        <label for="descripcion">8. Describe brevemente el problema:</label>
-        <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+    <label for="descripcion">8. Describe brevemente el problema:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
-        <label for="frecuencia">9. ¿Con qué frecuencia ocurre este problema?</label>
-        <select id="frecuencia" name="frecuencia" required>
-            <option value="Primera vez">Es la primera vez</option>
-            <option value="Ocasionalmente">Ocurre ocasionalmente</option>
-            <option value="Frecuente">Es un problema frecuente</option>
-        </select>
+    <label for="frecuencia">9. ¿Con qué frecuencia ocurre este problema?</label>
+    <select id="frecuencia" name="frecuencia" required>
+      <option value="Primera vez">Es la primera vez</option>
+      <option value="Ocasionalmente">Ocurre ocasionalmente</option>
+      <option value="Frecuente">Es un problema frecuente</option>
+    </select>
 
-        <label for="afecta">10. ¿Este problema afecta tus actividades académicas o laborales?</label>
-        <select id="afecta" name="afecta" required>
-            <option value="Si">Si</option>
-            <option value="No">No</option>
-        </select>
+    <label for="afecta">10. ¿Este problema afecta tus actividades académicas o laborales?</label>
+    <select id="afecta" name="afecta" required>
+      <option value="Si">Sí</option>
+      <option value="No">No</option>
+    </select>
 
-        <label for="fecha">11. ¿Desde cuándo existe este problema?</label>
-        <input type="date" id="fecha" name="fecha" required>
+    <label for="fecha">11. ¿Desde cuándo existe este problema?</label>
+    <input type="date" id="fecha" name="fecha" required>
 
-        <label for="reportado">12. ¿Has reportado este problema anteriormente?</label>
-        <select id="reportado" name="reportado" required>
-            <option value="Si">Si</option>
-            <option value="No">No</option>
-        </select>
-    </div>
+    <label for="reportado">12. ¿Has reportado este problema anteriormente?</label>
+    <select id="reportado" name="reportado" required>
+      <option value="Si">Sí</option>
+      <option value="No">No</option>
+    </select>
+  </div>
 
-    <div class="form-section">
-        <div class="form-title">Sugerencias y Comentarios</div>
-        <label for="solucion">13. ¿Qué solución sugieres o esperas?</label>
-        <textarea id="solucion" name="solucion" rows="4" required></textarea>
+  <div class="form-section">
+    <div class="form-title">Sugerencias y Comentarios</div>
+    <label for="solucion">13. ¿Qué solución sugieres o esperas?</label>
+    <textarea id="solucion" name="solucion" rows="4" required></textarea>
 
-        <label for="comentario">14. ¿Deseas dejar algún comentario o sugerencia adicional?</label>
-        <textarea id="comentario" name="comentario" rows="4"></textarea>
-    </div>
+    <label for="comentario">14. ¿Deseas dejar algún comentario o sugerencia adicional?</label>
+    <textarea id="comentario" name="comentario" rows="4"></textarea>
+  </div>
 
-    <button type="button" id="generatePDF">Generar PDF</button>
-    <button type="button" id="generateExcel">Generar Excel</button>
+  <button type="button" id="generatePDF">Generar PDF</button>
+  <small>En iPhone, el PDF se abrirá en otra pestaña. Desde ahí puedes guardarlo o compartirlo.</small>
+  <button type="button" id="generateExcel">Generar Excel</button>
 </form>
 
 <script>
-    document.getElementById('generatePDF').onclick = function() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+  document.getElementById('generatePDF').onclick = function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-        const nombre = document.getElementById('nombre').value;
-        const facultad = document.getElementById('facultad').value;
-        const carrera = document.getElementById('carrera').value;
-        const curso = document.getElementById('curso').value;
-        const email = document.getElementById('email').value;
-        const rol = document.getElementById('rol').value;
-        const tipoFalla = document.getElementById('tipoFalla').value;
-        const descripcion = document.getElementById('descripcion').value;
-        const frecuencia = document.getElementById('frecuencia').value;
-        const afecta = document.getElementById('afecta').value;
-        const fecha = document.getElementById('fecha').value;
-        const reportado = document.getElementById('reportado').value;
-        const solucion = document.getElementById('solucion').value;
-        const comentario = document.getElementById('comentario').value;
+    const nombre = document.getElementById('nombre').value;
+    const facultad = document.getElementById('facultad').value;
+    const carrera = document.getElementById('carrera').value;
+    const curso = document.getElementById('curso').value;
+    const email = document.getElementById('email').value;
+    const rol = document.getElementById('rol').value;
+    const tipoFalla = document.getElementById('tipoFalla').value;
+    const descripcion = document.getElementById('descripcion').value;
+    const frecuencia = document.getElementById('frecuencia').value;
+    const afecta = document.getElementById('afecta').value;
+    const fecha = document.getElementById('fecha').value;
+    const reportado = document.getElementById('reportado').value;
+    const solucion = document.getElementById('solucion').value;
+    const comentario = document.getElementById('comentario').value;
 
-        doc.text(`Reportes de Fallas en Infraestructura Universitaria (UTB)`, 10, 10);
-        doc.text(`1. Facultad: ${facultad}`, 10, 20);
-        doc.text(`2. Carrera: ${carrera}`, 10, 30);
-        doc.text(`3. Curso: ${curso}`, 10, 40);
-        doc.text(`4. Nombre y Apellido: ${nombre}`, 10, 50);
-        doc.text(`5. Correo Electrónico: ${email}`, 10, 60);
-        doc.text(`6. Rol: ${rol}`, 10, 70);
-        doc.text(`7. Tipo de Falla: ${tipoFalla}`, 10, 80);
-        doc.text(`8. Descripción del Problema: ${descripcion}`, 10, 90);
-        doc.text(`9. Frecuencia: ${frecuencia}`, 10, 100);
-        doc.text(`10. Afecta Actividades: ${afecta}`, 10, 110);
-        doc.text(`11. Desde Cuándo: ${fecha}`, 10, 120);
-        doc.text(`12. Reportado Anteriormente: ${reportado}`, 10, 130);
-        doc.text(`13. Solución Sugerida: ${solucion}`, 10, 140);
-        doc.text(`14. Comentarios Adicionales: ${comentario}`, 10, 150);
+    let y = 10;
+    doc.setFontSize(12);
+    doc.text("Reporte de Fallas en Infraestructura Universitaria (UTB)", 10, y); y += 10;
+    doc.text(`1. Facultad: ${facultad}`, 10, y); y += 10;
+    doc.text(`2. Carrera: ${carrera}`, 10, y); y += 10;
+    doc.text(`3. Curso: ${curso}`, 10, y); y += 10;
+    doc.text(`4. Nombre y Apellido: ${nombre}`, 10, y); y += 10;
+    doc.text(`5. Correo Electrónico: ${email}`, 10, y); y += 10;
+    doc.text(`6. Rol: ${rol}`, 10, y); y += 10;
+    doc.text(`7. Tipo de Falla: ${tipoFalla}`, 10, y); y += 10;
+    doc.text(`8. Descripción del Problema:`, 10, y); y += 10;
+    doc.text(doc.splitTextToSize(descripcion, 180), 10, y); y += 20;
+    doc.text(`9. Frecuencia: ${frecuencia}`, 10, y); y += 10;
+    doc.text(`10. Afecta Actividades: ${afecta}`, 10, y); y += 10;
+    doc.text(`11. Desde Cuándo: ${fecha}`, 10, y); y += 10;
+    doc.text(`12. Reportado Anteriormente: ${reportado}`, 10, y); y += 10;
+    doc.text(`13. Solución Sugerida:`, 10, y); y += 10;
+    doc.text(doc.splitTextToSize(solucion, 180), 10, y); y += 20;
+    doc.text(`14. Comentarios Adicionales:`, 10, y); y += 10;
+    doc.text(doc.splitTextToSize(comentario, 180), 10, y);
 
-        // Descargar el PDF
-        doc.save(`${nombre}_reporte_fallas.pdf`);
-    };
+    // Mostrar PDF en nueva pestaña
+    const blob = doc.output('blob');
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  };
 
-    document.getElementById('generateExcel').onclick = function() {
-        const nombre = document.getElementById('nombre').value;
+  document.getElementById('generateExcel').onclick = function () {
+    const nombre = document.getElementById('nombre').value;
+    const facultad = document.getElementById('facultad').value;
+    const carrera = document.getElementById('carrera').value;
+    const curso = document.getElementById('curso').value;
+    const email = document.getElementById('email').value;
+    const rol = document.getElementById('rol').value;
+    const tipoFalla = document.getElementById('tipoFalla').value;
+    const descripcion = document.getElementById('descripcion').value;
+    const frecuencia = document.getElementById('frecuencia').value;
+    const afecta = document.getElementById('afecta').value;
+    const fecha = document.getElementById('fecha').value;
+    const reportado = document.getElementById('reportado').value;
+    const solucion = document.getElementById('solucion').value;
+    const comentario = document.getElementById('comentario').value;
 
-        const facultad = document.getElementById('facultad').value;
-        const carrera = document.getElementById('carrera').value;
-        const curso = document.getElementById('curso').value;
-        const email = document.getElementById('email').value;
-        const rol = document.getElementById('rol').value;
-        const tipoFalla = document.getElementById('tipoFalla').value;
-        const descripcion = document.getElementById('descripcion').value;
-        const frecuencia = document.getElementById('frecuencia').value;
-        const afecta = document.getElementById('afecta').value;
-        const fecha = document.getElementById('fecha').value;
-        const reportado = document.getElementById('reportado').value;
-        const solucion = document.getElementById('solucion').value;
-        const comentario = document.getElementById('comentario').value;
+    const wb = XLSX.utils.book_new();
+    const ws_data = [
+      ["Campo", "Valor"],
+      ["Facultad", facultad],
+      ["Carrera", carrera],
+      ["Curso", curso],
+      ["Nombre y Apellido", nombre],
+      ["Correo Electrónico", email],
+      ["Rol", rol],
+      ["Tipo de Falla", tipoFalla],
+      ["Descripción del Problema", descripcion],
+      ["Frecuencia", frecuencia],
+      ["Afecta Actividades", afecta],
+      ["Desde Cuándo", fecha],
+      ["Reportado Anteriormente", reportado],
+      ["Solución Sugerida", solucion],
+      ["Comentarios Adicionales", comentario]
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    XLSX.utils.book_append_sheet(wb, ws, "Reporte de Fallas");
 
-        const wb = XLSX.utils.book_new();
-        const ws_data = [
-            ["Campo", "Valor"],
-            ["Facultad", facultad],
-            ["Carrera", carrera],
-            ["Curso", curso],
-            ["Nombre y Apellido", nombre],
-            ["Correo Electrónico", email],
-            ["Rol", rol],
-            ["Tipo de Falla", tipoFalla],
-            ["Descripción del Problema", descripcion],
-            ["Frecuencia", frecuencia],
-            ["Afecta Actividades", afecta],
-            ["Desde Cuándo", fecha],
-            ["Reportado Anteriormente", reportado],
-            ["Solución Sugerida", solucion],
-            ["Comentarios Adicionales", comentario]
-        ];
-        const ws = XLSX.utils.aoa_to_sheet(ws_data);
-        XLSX.utils.book_append_sheet(wb, ws, "Reporte de Fallas");
-
-        // Descargar el archivo Excel
-        XLSX.writeFile(wb, `${nombre}_reporte_fallas.xlsx`);
-    };
+    XLSX.writeFile(wb, `${nombre}_reporte_fallas.xlsx`);
+  };
 </script>
 
 </body>
 </html>
+
 
