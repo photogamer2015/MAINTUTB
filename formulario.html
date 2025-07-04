@@ -54,6 +54,7 @@
             font-size: 16px;
             transition: background-color 0.3s;
             width: 100%;
+            margin-bottom: 10px; /* Espacio entre botones */
         }
         button:hover {
             background-color: #45a049;
@@ -84,6 +85,7 @@
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -159,18 +161,19 @@
         <textarea id="comentario" name="comentario" rows="4"></textarea>
     </div>
 
-    <button type="submit">Generar PDF</button>
+    <button type="button" id="generatePDF">Generar PDF</button>
+    <button type="button" id="generateExcel">Generar Excel</button>
 </form>
 
 <script>
-    document.getElementById('reportForm').onsubmit = function(event) {
-        event.preventDefault(); 
+    document.getElementById('generatePDF').onclick = function() {
+        // Obtener el nombre para el archivo
+        const nombre = document.getElementById('nombre').value;
 
-      
+        // Obtener los valores del formulario
         const facultad = document.getElementById('facultad').value;
         const carrera = document.getElementById('carrera').value;
         const curso = document.getElementById('curso').value;
-        const nombre = document.getElementById('nombre').value;
         const email = document.getElementById('email').value;
         const rol = document.getElementById('rol').value;
         const tipoFalla = document.getElementById('tipoFalla').value;
@@ -182,11 +185,11 @@
         const solucion = document.getElementById('solucion').value;
         const comentario = document.getElementById('comentario').value;
 
-    
+        // Crear un nuevo documento PDF
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-    
+        // Agregar contenido al PDF
         doc.text(`Reportes de Fallas en Infraestructura Universitaria (UTB)`, 10, 10);
         doc.text(`1. Facultad: ${facultad}`, 10, 20);
         doc.text(`2. Carrera: ${carrera}`, 10, 30);
@@ -203,7 +206,53 @@
         doc.text(`13. Solución Sugerida: ${solucion}`, 10, 140);
         doc.text(`14. Comentarios Adicionales: ${comentario}`, 10, 150);
 
-        doc.save('reporte_fallas.pdf');
+        // Descargar el PDF con el nombre del usuario
+        doc.save(`${nombre}_reporte_fallas.pdf`);
+    };
+
+    document.getElementById('generateExcel').onclick = function() {
+        // Obtener el nombre para el archivo
+        const nombre = document.getElementById('nombre').value;
+
+        // Obtener los valores del formulario
+        const facultad = document.getElementById('facultad').value;
+        const carrera = document.getElementById('carrera').value;
+        const curso = document.getElementById('curso').value;
+        const email = document.getElementById('email').value;
+        const rol = document.getElementById('rol').value;
+        const tipoFalla = document.getElementById('tipoFalla').value;
+        const descripcion = document.getElementById('descripcion').value;
+        const frecuencia = document.getElementById('frecuencia').value;
+        const afecta = document.getElementById('afecta').value;
+        const fecha = document.getElementById('fecha').value;
+        const reportado = document.getElementById('reportado').value;
+        const solucion = document.getElementById('solucion').value;
+        const comentario = document.getElementById('comentario').value;
+
+        // Crear un libro de trabajo y una hoja
+        const wb = XLSX.utils.book_new();
+        const ws_data = [
+            ["Campo", "Valor"],
+            ["Facultad", facultad],
+            ["Carrera", carrera],
+            ["Curso", curso],
+            ["Nombre y Apellido", nombre],
+            ["Correo Electrónico", email],
+            ["Rol", rol],
+            ["Tipo de Falla", tipoFalla],
+            ["Descripción del Problema", descripcion],
+            ["Frecuencia", frecuencia],
+            ["Afecta Actividades", afecta],
+            ["Desde Cuándo", fecha],
+            ["Reportado Anteriormente", reportado],
+            ["Solución Sugerida", solucion],
+            ["Comentarios Adicionales", comentario]
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(ws_data);
+        XLSX.utils.book_append_sheet(wb, ws, "Reporte de Fallas");
+
+        // Descargar el archivo Excel con el nombre del usuario
+        XLSX.writeFile(wb, `${nombre}_reporte_fallas.xlsx`);
     };
 </script>
 
