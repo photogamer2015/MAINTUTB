@@ -63,6 +63,7 @@
 
 <h2>Reporte de Fallas en Infraestructura (UTB)</h2>
 <form id="reportForm">
+  <!-- CAMPOS -->
   <label for="facultad">Facultad:</label>
   <input type="text" id="facultad" required>
 
@@ -133,7 +134,7 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Obtener valores
+    // Obtener datos
     const nombre = document.getElementById("nombre").value;
     const facultad = document.getElementById("facultad").value;
     const carrera = document.getElementById("carrera").value;
@@ -149,43 +150,54 @@
     const solucion = document.getElementById("solucion").value;
     const comentario = document.getElementById("comentario").value;
 
-    const texto = `
-Reporte de Falla en Infraestructura Universitaria (UTB)
-
-El/la ${rol.toLowerCase()} ${nombre}, de la carrera ${carrera} en la facultad de ${facultad}, ha reportado una falla del tipo "${tipoFalla}" con la siguiente descripción: "${descripcion}".
-
-Este problema ocurre ${frecuencia.toLowerCase()} y ${afecta === "Sí" ? "sí afecta" : "no afecta"} sus actividades. Comenzó el día ${fecha} y ${reportado === "Sí" ? "ya fue reportado anteriormente" : "no se había reportado antes"}.
-
-Sugerencia del usuario: "${solucion}".
-${comentario ? "Comentario adicional: " + comentario : ""}
-
-Reporte generado por: ${nombre} (${email})
-    `;
-
+    let y = 20;
     doc.setFontSize(12);
-    const lineas = doc.splitTextToSize(texto, 180);
-    doc.text(lineas, 15, 20);
+    doc.text("Babahoyo, " + new Date().toLocaleDateString(), 15, y); y += 10;
+    doc.text("Para: Sr. Decano", 15, y); y += 7;
+    doc.text("Universidad Técnica de Babahoyo", 15, y); y += 10;
+    doc.text("Presente.-", 15, y); y += 10;
 
-    const nombreArchivo = `${nombre.replace(/\s+/g, "_")}_reporte_UTB.pdf`;
+    const intro = `Yo, ${nombre}, en calidad de ${rol.toLowerCase()} de la carrera ${carrera}, facultad de ${facultad}, curso ${curso}, presento el siguiente informe técnico sobre una falla detectada en la infraestructura de la universidad.`;
+    const cuerpo = `
+Tipo de Falla: ${tipoFalla}
+Descripción del problema: ${descripcion}
+Frecuencia del problema: ${frecuencia}
+¿Afecta las actividades?: ${afecta}
+Fecha del incidente: ${fecha}
+¿Ha sido reportado antes?: ${reportado}
+Solución sugerida: ${solucion}
+${comentario ? "Comentarios adicionales: " + comentario : ""}
+Correo de contacto: ${email}`;
 
-    const userAgent = navigator.userAgent || navigator.vendor;
+    const introLines = doc.splitTextToSize(intro, 180);
+    doc.text(introLines, 15, y); y += introLines.length * 8;
 
-    const esIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const cuerpoLines = doc.splitTextToSize(cuerpo, 180);
+    doc.text(cuerpoLines, 15, y); y += cuerpoLines.length * 8 + 10;
 
-    if (esIOS) {
-      // ABRIR EN NUEVA PESTAÑA EN iPhone
-      const blob = doc.output("blob");
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
-    } else {
-      // DESCARGAR EN ANDROID / PC
-      doc.save(nombreArchivo);
-    }
+    doc.text("Atentamente,", 15, y); y += 10;
+    doc.text(nombre, 15, y); y += 10;
+
+    // Logo al final del documento
+    const logo = new Image();
+    logo.crossOrigin = "anonymous";
+    logo.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Logo_utb.png/800px-Logo_utb.png"; // Cambia este link si tienes otro logo
+
+    logo.onload = function () {
+      doc.addImage(logo, "PNG", 70, y, 70, 30); // centrado aproximado
+      const nombreArchivo = `${nombre.replace(/\s+/g, "_")}_reporte_UTB.pdf`;
+
+      const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (esIOS) {
+        const blob = doc.output("blob");
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      } else {
+        doc.save(nombreArchivo);
+      }
+    };
   };
 </script>
 
 </body>
 </html>
-Ayudame dame un informe tècnico más detallado y que tambien se muestre el logo  al final 
-
-
