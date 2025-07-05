@@ -57,7 +57,12 @@
       color: #888;
     }
   </style>
+
+  <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    window.jspdf = window.jspdf || jspdf;
+  </script>
 </head>
 <body>
 
@@ -154,31 +159,30 @@ Babahoyo, ${new Date().toLocaleDateString()}
 Señor(a) Decano(a)
 Facultad de ${facultad}
 Universidad Técnica de Babahoyo
+
 Presente.-
 
 De mi consideración:
 
-Por medio de la presente, me permito poner en su conocimiento una falla presentada dentro de las instalaciones de la institución. El presente reporte tiene como finalidad informar de manera formal y técnica para su evaluación correspondiente.
+Por medio de la presente, me permito poner en su conocimiento una falla presentada en la infraestructura de nuestra institución. El objetivo de este documento es informar formalmente los detalles del problema para su respectivo análisis y solución.
 
 INFORME TÉCNICO:
 
-Nombre del reportante: ${nombre}
-Rol: ${rol}
-Carrera: ${carrera}
-Curso: ${curso}
-Correo electrónico: ${email}
+• Nombre del reportante: ${nombre}
+• Rol: ${rol}
+• Carrera: ${carrera}
+• Curso: ${curso}
+• Correo electrónico: ${email}
+• Tipo de falla: ${tipoFalla}
+• Descripción: ${descripcion}
+• Frecuencia: ${frecuencia}
+• ¿Afecta actividades?: ${afecta}
+• Fecha del problema: ${fecha}
+• ¿Reportado antes?: ${reportado}
+• Solución sugerida: ${solucion}
+${comentario ? "• Comentario adicional: " + comentario : ""}
 
-Tipo de falla reportada: ${tipoFalla}
-Descripción: ${descripcion}
-Frecuencia del problema: ${frecuencia}
-¿Afecta el desarrollo de las actividades?: ${afecta}
-Fecha en que se presentó la falla: ${fecha}
-¿Ha sido reportado anteriormente?: ${reportado}
-
-Sugerencia del informante: ${solucion}
-${comentario ? "Comentarios adicionales: " + comentario : ""}
-
-Se solicita a las autoridades competentes tomar en consideración este reporte para su debido seguimiento y solución.
+Agradezco de antemano la atención brindada a este reporte y quedo a la espera de una pronta solución.
 
 Atentamente,
 
@@ -187,12 +191,13 @@ ${rol} – UTB
     `;
 
     doc.setFontSize(12);
-    const lineas = doc.splitTextToSize(texto.trim(), 180);
-    doc.text(lineas, 15, 20);
+    const lines = doc.splitTextToSize(texto.trim(), 180);
+    doc.text(lines, 15, 20);
 
+    // Logo UTB (puedes cambiarlo por uno tuyo en base64 si lo deseas)
     const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAMAAADvGU7dAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABgFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////+POB/3AAAAX3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZ2hqa2xtbm9wcXJzdHV2d3h5ent8foCChIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaaoqaqrrK2ur7CxsrO0tba3uLm6u7y9vsDBwsPExcbHyMnKy8zNzs/Q0dLT1NXW19jZ2tvb3N3e3+Dh4uPk5ebn6Onq6+zt7u/x8/T19vf4+fr7/P3+Z8NDxQAAAYlJREFUeNrs20dywyAMBdE0i4ihYCuIPnf//z3fZW4Fh1ZXfFg77PzNGKIoHnOKef6o6pHpIKUj9Fb2Q2xgAaB+Dx4UHLBj9QU3Thffr8LUJVDgUlJUMAnI3gWHB88tcAGx+kQQBlxuTPnCMg+d1Y0M8KacdkpiA3rEcJXDE8wd1H9X8XUzT2DPdAxG5ydQZn1wJ2gUtnxYwJK59Jqls9Oh98RHQroH0kL6HRk1xIHzgrorUO6FsWDpKeX6KYtH9nh1+kLtPWJmrYhbbthhUEjN5wQ9X9tIDNKpZRSnkbDPFwB+ybZDnGSJrScD4rN0S7sX4dYqAKeQ0Zk+x5VZHKj6wKPOAhSFRDLGhMDqJEPkDeZkZcBfczlFqRhRBEARBEARBEARBEARBEPwr/wAcGKmKVL9SgQAAAABJRU5ErkJggg==";
 
-    doc.addImage(logoBase64, "PNG", 100, 265, 100, 100); // logo abajo centrado
+    doc.addImage(logoBase64, "PNG", 80, 265, 50, 20); // logo al pie
 
     const nombreArchivo = `${nombre.replace(/\s+/g, "_")}_reporte_UTB.pdf`;
 
