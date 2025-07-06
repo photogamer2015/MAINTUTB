@@ -187,15 +187,19 @@ Correo de contacto: ${email}`;
       doc.addImage(logo, "PNG", 70, y, 70, 30); // centrado aproximado
       const nombreArchivo = `${nombre.replace(/\s+/g, "_")}_reporte_UTB.pdf`;
 
-      const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      if (esIOS) {
-        const blob = doc.output("blob");
-        const url = URL.createObjectURL(blob);
-        window.open(url, "_blank");
-      } else {
-        doc.save(nombreArchivo);
-      }
-    };
+      const userAgent = navigator.userAgent || navigator.vendor;
+
+    const esIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+    if (esIOS) {
+      // ABRIR EN NUEVA PESTAÑA EN iPhone
+      const blob = doc.output("blob");
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank");
+    } else {
+      // DESCARGAR EN ANDROID / PC
+      doc.save(nombreArchivo);
+    }
   };
 </script>
 
