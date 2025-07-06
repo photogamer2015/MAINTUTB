@@ -133,6 +133,7 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
+    // Obtener valores
     const nombre = document.getElementById("nombre").value;
     const facultad = document.getElementById("facultad").value;
     const carrera = document.getElementById("carrera").value;
@@ -148,56 +149,36 @@
     const solucion = document.getElementById("solucion").value;
     const comentario = document.getElementById("comentario").value;
 
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("REPORTE TÉCNICO DE FALLA - UTB", 105, 20, null, null, "center");
+    const texto = `
+Reporte de Falla en Infraestructura Universitaria (UTB)
+
+El/la ${rol.toLowerCase()} ${nombre}, de la carrera ${carrera} en la facultad de ${facultad}, ha reportado una falla del tipo "${tipoFalla}" con la siguiente descripción: "${descripcion}".
+
+Este problema ocurre ${frecuencia.toLowerCase()} y ${afecta === "Sí" ? "sí afecta" : "no afecta"} sus actividades. Comenzó el día ${fecha} y ${reportado === "Sí" ? "ya fue reportado anteriormente" : "no se había reportado antes"}.
+
+Sugerencia del usuario: "${solucion}".
+${comentario ? "Comentario adicional: " + comentario : ""}
+
+Reporte generado por: ${nombre} (${email})
+    `;
 
     doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-
-    let y = 30;
-
-    const agregarLinea = (titulo, valor) => {
-      doc.text(`${titulo}:`, 15, y);
-      doc.text(String(valor), 60, y);
-      y += 8;
-    };
-
-    agregarLinea("Nombre y Apellido", nombre);
-    agregarLinea("Correo", email);
-    agregarLinea("Facultad", facultad);
-    agregarLinea("Carrera", carrera);
-    agregarLinea("Curso", curso);
-    agregarLinea("Rol", rol);
-    agregarLinea("Tipo de Falla", tipoFalla);
-    agregarLinea("Descripción", descripcion);
-    agregarLinea("Frecuencia", frecuencia);
-    agregarLinea("¿Afecta actividades?", afecta);
-    agregarLinea("Fecha del problema", fecha);
-    agregarLinea("¿Fue reportado antes?", reportado);
-    agregarLinea("Solución sugerida", solucion);
-    if (comentario.trim() !== "") agregarLinea("Comentarios adicionales", comentario);
-
-    y += 10;
-    doc.setFont("helvetica", "italic");
-    doc.text(`Reporte generado el: ${new Date().toLocaleDateString()}`, 15, y);
-
-    // Logo de UTB en base64
-    const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAMAAADvGU7dAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABgFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////+POB/3AAAAX3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZ2hqa2xtbm9wcXJzdHV2d3h5ent8foCChIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaaoqaqrrK2ur7CxsrO0tba3uLm6u7y9vsDBwsPExcbHyMnKy8zNzs/Q0dLT1NXW19jZ2tvb3N3e3+Dh4uPk5ebn6Onq6+zt7u/x8/T19vf4+fr7/P3+Z8NDxQAAAYlJREFUeNrs20dywyAMBdE0i4ihYCuIPnf//z3fZW4Fh1ZXfFg77PzNGKIoHnOKef6o6pHpIKUj9Fb2Q2xgAaB+Dx4UHLBj9QU3Thffr8LUJVDgUlJUMAnI3gWHB88tcAGx+kQQBlxuTPnCMg+d1Y0M8KacdkpiA3rEcJXDE8wd1H9X8XUzT2DPdAxG5ydQZn1wJ2gUtnxYwJK59Jqls9Oh98RHQroH0kL6HRk1xIHzgrorUO6FsWDpKeX6KYtH9nh1+kLtPWJmrYhbbthhUEjN5wQ9X9tIDNKpZRSnkbDPFwB+ybZDnGSJrScD4rN0S7sX4dYqAKeQ0Zk+x5VZHKj6wKPOAhSFRDLGhMDqJEPkDeZkZcBfczlFqRhRBEARBEARBEARBEARBEPwr/wAcGKmKVL9SgQAAAABJRU5ErkJggg==";
-
-    // Agrega el logo al pie del documento
-    doc.addImage(logoBase64, "PNG", 80, 260, 50, 20); // x, y, ancho, alto
+    const lineas = doc.splitTextToSize(texto, 180);
+    doc.text(lineas, 15, 20);
 
     const nombreArchivo = `${nombre.replace(/\s+/g, "_")}_reporte_UTB.pdf`;
 
     const userAgent = navigator.userAgent || navigator.vendor;
+
     const esIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 
     if (esIOS) {
+      // ABRIR EN NUEVA PESTAÑA EN iPhone
       const blob = doc.output("blob");
       const url = URL.createObjectURL(blob);
       window.open(url, "_blank");
     } else {
+      // DESCARGAR EN ANDROID / PC
       doc.save(nombreArchivo);
     }
   };
@@ -205,4 +186,5 @@
 
 </body>
 </html>
+Ayudame dame un informe tècnico más detallado y que tambien se muestre el logo  al final 
 
