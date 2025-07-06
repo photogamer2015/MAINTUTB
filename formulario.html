@@ -125,6 +125,12 @@
   <textarea id="comentario"></textarea>
 
   <button type="button" id="generatePDF">Generar PDF</button>
+  <br>
+  <!-- Botón adicional para iPhone-->
+<button type="button" id="generatePDFiPhone" style="margin-top: 10px; background-color: #007BFF;">
+  Descargar en iPhone
+</button>
+
   <small>Tu reporte se descargará o abrirá según tu dispositivo.</small>
 </form>
 
@@ -193,7 +199,61 @@ Contacto del remitente: ${email}
       }
     };
   };
+
+    document.getElementById("generatePDFiPhone").onclick = function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const nombre = document.getElementById("nombre").value;
+    const facultad = document.getElementById("facultad").value;
+    const carrera = document.getElementById("carrera").value;
+    const curso = document.getElementById("curso").value;
+    const email = document.getElementById("email").value;
+    const rol = document.getElementById("rol").value;
+    const tipoFalla = document.getElementById("tipoFalla").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const frecuencia = document.getElementById("frecuencia").value;
+    const afecta = document.getElementById("afecta").value;
+    const fecha = document.getElementById("fecha").value;
+    const reportado = document.getElementById("reportado").value;
+    const solucion = document.getElementById("solucion").value;
+    const comentario = document.getElementById("comentario").value;
+
+    const contenido = `
+UNIVERSIDAD TÉCNICA DE BABAHOYO
+Facultad de ${facultad}
+Carrera: ${carrera}
+Curso: ${curso}
+
+Babahoyo, ${fecha}
+
+PARA: Sr. Decano de la Universidad Técnica de Babahoyo
+
+Asunto: Reporte de Falla en Infraestructura
+
+Yo, ${nombre}, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla detectada en las instalaciones:
+
+Tipo de Falla: ${tipoFalla}
+Descripción del Problema: ${descripcion}
+Frecuencia del Problema: ${frecuencia}
+¿Afecta las actividades?: ${afecta}
+¿Reportado anteriormente?: ${reportado}
+
+Solución sugerida: ${solucion}
+
+${comentario ? 'Comentarios adicionales: ' + comentario : ''}
+
+Correo de contacto: ${email}
+    `;
+
+    const lineas = doc.splitTextToSize(contenido, 180);
+    doc.setFontSize(12);
+    doc.text(lineas, 15, 20);
+    doc.save(`Reporte_UTB_iPhone_${nombre}.pdf`);
+  };
+
 </script>
+  
 
 </body>
 </html>
