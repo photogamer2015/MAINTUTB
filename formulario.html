@@ -2,62 +2,151 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Generar PDF con Imagen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte de Fallas UTB</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0c5fd5;
+    }
+
+    #logoUTB {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Logo e imagen evidencia -->
-<img id="logoUTB" src="logo.png" style="display: none;" />
-<input type="file" id="evidenciaInput" accept="image/*" />
-<br><br>
-<button onclick="generarPDF()">Generar PDF</button>
+<h2>Formulario de Reporte de Fallas - UTB</h2>
+
+<form id="formularioFalla">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" required>
+
+  <label for="rol">Rol:</label>
+  <select id="rol" required>
+    <option value="">Seleccione</option>
+    <option value="Estudiante">Estudiante</option>
+    <option value="Docente">Docente</option>
+    <option value="Administrativo">Administrativo</option>
+  </select>
+
+  <label for="tipoFalla">Tipo de Falla:</label>
+  <input type="text" id="tipoFalla" required>
+
+  <label for="descripcion">Descripción:</label>
+  <textarea id="descripcion" rows="4" required></textarea>
+
+  <label for="codigoProducto">Código del Producto:</label>
+  <input type="text" id="codigoProducto" required>
+
+  <label for="solucion">Solución sugerida:</label>
+  <textarea id="solucion" rows="3" required></textarea>
+
+  <label for="email">Correo electrónico:</label>
+  <input type="email" id="email" required>
+
+  <label for="evidenciaInput">Imagen de evidencia:</label>
+  <input type="file" id="evidenciaInput" accept="image/*" required>
+
+  <button type="button" onclick="generarPDF()">Generar PDF</button>
+</form>
+
+<!-- Logo oculto -->
+<img id="logoUTB" src="logo.png" alt="Logo UTB" />
 
 <script>
   const { jsPDF } = window.jspdf;
 
   let evidenciaBase64 = "";
 
-  // Convertir la imagen cargada a base64
-  document.getElementById('evidenciaInput').addEventListener('change', function (e) {
+  // Leer imagen de evidencia como base64
+  document.getElementById("evidenciaInput").addEventListener("change", function (e) {
     const file = e.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
     reader.onload = function (event) {
       evidenciaBase64 = event.target.result;
     };
-    if (file) reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
   });
 
   function generarPDF() {
     const doc = new jsPDF();
 
-    // Datos simulados
-    const nombre = "Juan Pérez";
-    const rol = "Estudiante";
-    const tipoFalla = "Filtración de agua";
-    const descripcion = "Se reporta una filtración de agua en el techo del aula 204.";
-    const codigoProducto = "INFRA-204";
-    const solucion = "Sellar la grieta del techo con material impermeable.";
-    const email = "juan@example.com";
+    // Obtener datos del formulario
+    const nombre = document.getElementById("nombre").value;
+    const rol = document.getElementById("rol").value;
+    const tipoFalla = document.getElementById("tipoFalla").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const codigoProducto = document.getElementById("codigoProducto").value;
+    const solucion = document.getElementById("solucion").value;
+    const email = document.getElementById("email").value;
 
-    // Agregar LOGO
+    // Insertar logo
     const logo = document.getElementById("logoUTB");
-    doc.addImage(logo, "PNG", 75, 10, 60, 20); // centrado arriba
+    doc.addImage(logo, "PNG", 70, 10, 70, 20); // centrado
 
-    // CONTENIDO FORMAL
-    doc.setFont("helvetica", "normal");
-    doc.text(`Babahoyo, ${new Date().toLocaleDateString()}`, 20, 40);
-    doc.setFont("helvetica", "bold");
-    doc.text("PARA:", 20, 50);
-    doc.setFont("helvetica", "normal");
-    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, 50);
-    doc.setFont("helvetica", "bold");
-    doc.text("Asunto:", 20, 60);
-    doc.setFont("helvetica", "normal");
-    doc.text("Reporte de Falla en Infraestructura", 40, 60);
-
-    let y = 70;
+    // Texto formal
+    let y = 40;
     const salto = 7;
+
+    doc.setFont("helvetica", "normal");
+    doc.text(`Babahoyo, ${new Date().toLocaleDateString()}`, 20, y); y += salto;
+    doc.setFont("helvetica", "bold");
+    doc.text("PARA:", 20, y);
+    doc.setFont("helvetica", "normal");
+    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, y); y += salto;
+    doc.setFont("helvetica", "bold");
+    doc.text("Asunto:", 20, y);
+    doc.setFont("helvetica", "normal");
+    doc.text("Reporte de Falla en Infraestructura", 40, y); y += salto * 2;
+
     doc.text(`Yo, ${nombre}, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla:`, 20, y); y += salto;
     doc.text(`Tipo de Falla: ${tipoFalla}`, 20, y); y += salto;
     doc.text(`Descripción:`, 20, y); y += salto;
@@ -67,15 +156,16 @@
     doc.text(doc.splitTextToSize(solucion, 170), 25, y); y += salto * 3;
     doc.text(`Correo de contacto: ${email}`, 20, y); y += salto * 2;
 
-    // AGREGAR IMAGEN DE EVIDENCIA (si fue cargada)
+    // Insertar evidencia si está disponible
     if (evidenciaBase64) {
-      doc.text("Evidencia fotográfica:", 20, y);
-      y += 5;
-      doc.addImage(evidenciaBase64, 'JPEG', 20, y, 100, 75); // ajusta tamaño/posición
+      doc.text("Evidencia fotográfica:", 20, y); y += salto;
+      doc.addImage(evidenciaBase64, "JPEG", 20, y, 100, 75);
     }
 
     doc.save(`Reporte_Falla_UTB_${nombre}.pdf`);
   }
 </script>
+
 </body>
 </html>
+
