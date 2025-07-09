@@ -2,174 +2,80 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reporte de Fallas UTB</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    form {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 600px;
-      margin: auto;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #555;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      width: 100%;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    small {
-      display: block;
-      text-align: center;
-      color: #888;
-      margin-top: 10px;
-    }
-  </style>
+  <title>Generar PDF con Imagen</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-<h2>Reporte de Fallas en Infraestructura (UTB)</h2>
-<form id="reportForm">
-  <label for="facultad">Facultad:</label>
-  <input type="text" id="facultad" required>
-
-  <label for="carrera">Carrera:</label>
-  <input type="text" id="carrera" required>
-
-  <label for="curso">Curso:</label>
-  <input type="text" id="curso" required>
-
-  <label for="nombre">Nombre y Apellido:</label>
-  <input type="text" id="nombre" required>
-
-  <label for="email">Correo Electrónico:</label>
-  <input type="email" id="email" required>
-
-  <label for="rol">Rol:</label>
-  <select id="rol" required>
-    <option value="Estudiante">Estudiante</option>
-    <option value="Docente">Docente</option>
-  </select>
-
-  <label for="tipoFalla">Tipo de Falla:</label>
-  <select id="tipoFalla" required>
-    <option value="Electricidad">Electricidad</option>
-    <option value="Agua">Agua</option>
-    <option value="Infraestructura">Infraestructura</option>
-    <option value="Tecnologías">Tecnologías</option>
-    <option value="Mobiliario">Mobiliario</option>
-  </select>
-
-  <label for="descripcion">Descripción del Problema:</label>
-  <textarea id="descripcion" required></textarea>
-
-  <label for="codigoProducto">Código del Producto:</label>
-  <input type="text" id="codigoProducto" required>
-
-  <label for="evidencia">Subir Imágenes como Evidencia:</label>
-  <input type="file" id="evidencia" accept="image/*" multiple>
-
-  <label for="solucion">Solución Sugerida:</label>
-  <textarea id="solucion" required></textarea>
-
-  <button type="button" id="generatePDF">Generar PDF</button>
-  <br>
-  <small>Tu reporte se descargará automáticamente como archivo PDF.</small>
-</form>
+<!-- Logo e imagen evidencia -->
+<img id="logoUTB" src="logo.png" style="display: none;" />
+<input type="file" id="evidenciaInput" accept="image/*" />
+<br><br>
+<button onclick="generarPDF()">Generar PDF</button>
 
 <script>
-  document.getElementById("generatePDF").onclick = async function () {
-    const { jsPDF } = window.jspdf;
+  const { jsPDF } = window.jspdf;
+
+  let evidenciaBase64 = "";
+
+  // Convertir la imagen cargada a base64
+  document.getElementById('evidenciaInput').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      evidenciaBase64 = event.target.result;
+    };
+    if (file) reader.readAsDataURL(file);
+  });
+
+  function generarPDF() {
     const doc = new jsPDF();
 
-    const nombre = document.getElementById("nombre").value;
-    const facultad = document.getElementById("facultad").value;
-    const carrera = document.getElementById("carrera").value;
-    const curso = document.getElementById("curso").value;
-    const email = document.getElementById("email").value;
-    const rol = document.getElementById("rol").value;
-    const tipoFalla = document.getElementById("tipoFalla").value;
-    const descripcion = document.getElementById("descripcion").value;
-    const codigoProducto = document.getElementById("codigoProducto").value;
-    const solucion = document.getElementById("solucion").value;
+    // Datos simulados
+    const nombre = "Juan Pérez";
+    const rol = "Estudiante";
+    const tipoFalla = "Filtración de agua";
+    const descripcion = "Se reporta una filtración de agua en el techo del aula 204.";
+    const codigoProducto = "INFRA-204";
+    const solucion = "Sellar la grieta del techo con material impermeable.";
+    const email = "juan@example.com";
 
+    // Agregar LOGO
+    const logo = document.getElementById("logoUTB");
+    doc.addImage(logo, "PNG", 75, 10, 60, 20); // centrado arriba
+
+    // CONTENIDO FORMAL
+    doc.setFont("helvetica", "normal");
+    doc.text(`Babahoyo, ${new Date().toLocaleDateString()}`, 20, 40);
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text("UNIVERSIDAD TÉCNICA DE BABAHOYO", 105, 20, { align: "center" });
-
-    doc.setFontSize(12);
+    doc.text("PARA:", 20, 50);
     doc.setFont("helvetica", "normal");
-    doc.text(`Facultad: ${facultad}`, 20, 30);
-    doc.text(`Carrera: ${carrera}`, 20, 37);
-    doc.text(`Curso: ${curso}`, 20, 44);
-    doc.text(`Babahoyo, ${new Date().toLocaleDateString()}`, 20, 54);
-
+    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, 50);
     doc.setFont("helvetica", "bold");
-    doc.text("PARA:", 20, 65);
+    doc.text("Asunto:", 20, 60);
     doc.setFont("helvetica", "normal");
-    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, 65);
+    doc.text("Reporte de Falla en Infraestructura", 40, 60);
 
-    doc.setFont("helvetica", "bold");
-    doc.text("Asunto:", 20, 75);
-    doc.setFont("helvetica", "normal");
-    doc.text("Reporte de Falla en Infraestructura", 40, 75);
-
-    doc.setFont("helvetica", "normal");
-    let y = 85;
+    let y = 70;
     const salto = 7;
-
     doc.text(`Yo, ${nombre}, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla:`, 20, y); y += salto;
     doc.text(`Tipo de Falla: ${tipoFalla}`, 20, y); y += salto;
     doc.text(`Descripción:`, 20, y); y += salto;
     doc.text(doc.splitTextToSize(descripcion, 170), 25, y); y += salto * 3;
-
     doc.text(`Código del Producto: ${codigoProducto}`, 20, y); y += salto;
     doc.text(`Solución sugerida:`, 20, y); y += salto;
     doc.text(doc.splitTextToSize(solucion, 170), 25, y); y += salto * 3;
+    doc.text(`Correo de contacto: ${email}`, 20, y); y += salto * 2;
 
-    doc.text(`Correo de contacto: ${email}`, 20, y);
-
-    // Aquí puedes agregar la lógica para manejar las imágenes si es necesario
+    // AGREGAR IMAGEN DE EVIDENCIA (si fue cargada)
+    if (evidenciaBase64) {
+      doc.text("Evidencia fotográfica:", 20, y);
+      y += 5;
+      doc.addImage(evidenciaBase64, 'JPEG', 20, y, 100, 75); // ajusta tamaño/posición
+    }
 
     doc.save(`Reporte_Falla_UTB_${nombre}.pdf`);
-  };
+  }
 </script>
-
 </body>
 </html>
-
-
-
