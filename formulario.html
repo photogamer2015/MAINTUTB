@@ -2,170 +2,288 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Reporte de Fallas UTB</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
+      margin: 0;
       padding: 20px;
     }
-
     h2 {
       text-align: center;
       color: #333;
     }
-
     form {
-      background: #fff;
+      background-color: #fff;
+      border: 1px solid #ccc;
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 8px;
       max-width: 600px;
       margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     label {
       display: block;
-      margin-top: 10px;
+      margin-bottom: 8px;
       font-weight: bold;
+      color: #555;
     }
-
     input, textarea, select {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
     }
-
     button {
-      margin-top: 20px;
-      padding: 10px 15px;
-      background-color: #1a73e8;
+      background-color: #4CAF50;
       color: white;
+      padding: 10px 15px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-size: 16px;
+      width: 100%;
     }
-
     button:hover {
-      background-color: #0c5fd5;
+      background-color: #45a049;
     }
-
-    #logoUTB {
-      display: none;
+    #generatePDFiPhone {
+      background-color: #007BFF;
+      margin-top: 10px;
+    }
+    small {
+      display: block;
+      text-align: center;
+      color: #888;
+      margin-top: 10px;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-<h2>Formulario de Reporte de Fallas - UTB</h2>
+<h2>Reporte de Fallas en Infraestructura (UTB)</h2>
+<form id="reportForm">
+  <label for="facultad">Facultad:</label>
+  <input type="text" id="facultad" required>
 
-<form id="formularioFalla">
-  <label for="nombre">Nombre:</label>
+  <label for="carrera">Carrera:</label>
+  <input type="text" id="carrera" required>
+
+  <label for="curso">Curso:</label>
+  <input type="text" id="curso" required>
+
+  <label for="nombre">Nombre y Apellido:</label>
   <input type="text" id="nombre" required>
+
+  <label for="email">Correo Electrónico:</label>
+  <input type="email" id="email" required>
 
   <label for="rol">Rol:</label>
   <select id="rol" required>
-    <option value="">Seleccione</option>
     <option value="Estudiante">Estudiante</option>
     <option value="Docente">Docente</option>
-    <option value="Administrativo">Administrativo</option>
   </select>
 
   <label for="tipoFalla">Tipo de Falla:</label>
-  <input type="text" id="tipoFalla" required>
+  <select id="tipoFalla" required>
+    <option value="Electricidad">Electricidad</option>
+    <option value="Agua">Agua</option>
+    <option value="Infraestructura">Infraestructura</option>
+    <option value="Tecnologías">Tecnologías</option>
+    <option value="Mobiliario">Mobiliario</option>
+  </select>
 
-  <label for="descripcion">Descripción:</label>
-  <textarea id="descripcion" rows="4" required></textarea>
+  <label for="descripcion">Descripción del Problema:</label>
+  <textarea id="descripcion" required></textarea>
 
-  <label for="codigoProducto">Código del Producto:</label>
-  <input type="text" id="codigoProducto" required>
+  <label for="frecuencia">Frecuencia:</label>
+  <select id="frecuencia" required>
+    <option value="Primera vez">Primera vez</option>
+    <option value="Ocasionalmente">Ocasionalmente</option>
+    <option value="Frecuente">Frecuente</option>
+  </select>
 
-  <label for="solucion">Solución sugerida:</label>
-  <textarea id="solucion" rows="3" required></textarea>
+  <label for="afecta">¿Afecta actividades?</label>
+  <select id="afecta" required>
+    <option value="Sí">Sí</option>
+    <option value="No">No</option>
+  </select>
 
-  <label for="email">Correo electrónico:</label>
-  <input type="email" id="email" required>
+  <label for="fecha">Fecha del problema:</label>
+  <input type="date" id="fecha" required>
 
-  <label for="evidenciaInput">Imagen de evidencia:</label>
-  <input type="file" id="evidenciaInput" accept="image/*" required>
+  <label for="reportado">¿Reportado antes?</label>
+  <select id="reportado" required>
+    <option value="Sí">Sí</option>
+    <option value="No">No</option>
+  </select>
 
-  <button type="button" onclick="generarPDF()">Generar PDF</button>
+  <label for="solucion">Solución Sugerida:</label>
+  <textarea id="solucion" required></textarea>
+
+  <label for="comentario">Comentarios Adicionales:</label>
+  <textarea id="comentario"></textarea>
+
+  <button type="button" id="generatePDF">Generar PDF </button>
+  <br>
+  <small>Tu reporte se descargará automáticamente como archivo PDF.</small>
 </form>
 
-<!-- Logo oculto -->
-<img id="logoUTB" src="logo.png" alt="Logo UTB" />
-
 <script>
-  const { jsPDF } = window.jspdf;
-
-  let evidenciaBase64 = "";
-
-  // Leer imagen de evidencia como base64
-  document.getElementById("evidenciaInput").addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      evidenciaBase64 = event.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-
-  function generarPDF() {
+  document.getElementById("generatePDF").onclick = async function () {
+    const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Obtener datos del formulario
     const nombre = document.getElementById("nombre").value;
+    const facultad = document.getElementById("facultad").value;
+    const carrera = document.getElementById("carrera").value;
+    const curso = document.getElementById("curso").value;
+    const email = document.getElementById("email").value;
     const rol = document.getElementById("rol").value;
     const tipoFalla = document.getElementById("tipoFalla").value;
     const descripcion = document.getElementById("descripcion").value;
-    const codigoProducto = document.getElementById("codigoProducto").value;
+    const frecuencia = document.getElementById("frecuencia").value;
+    const afecta = document.getElementById("afecta").value;
+    const fecha = document.getElementById("fecha").value;
+    const reportado = document.getElementById("reportado").value;
     const solucion = document.getElementById("solucion").value;
-    const email = document.getElementById("email").value;
+    const comentario = document.getElementById("comentario").value;
 
-    // Insertar logo
-    const logo = document.getElementById("logoUTB");
-    doc.addImage(logo, "PNG", 70, 10, 70, 20); // centrado
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("UNIVERSIDAD TÉCNICA DE BABAHOYO", 105, 20, { align: "center" });
 
-    // Texto formal
-    let y = 40;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Facultad: ${facultad}`, 20, 30);
+    doc.text(`Carrera: ${carrera}`, 20, 37);
+    doc.text(`Curso: ${curso}`, 20, 44);
+    doc.text(`Babahoyo, ${fecha}`, 20, 54);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("PARA:", 20, 65);
+    doc.setFont("helvetica", "normal");
+    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, 65);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Asunto:", 20, 75);
+    doc.setFont("helvetica", "normal");
+    doc.text("Reporte de Falla en Infraestructura", 40, 75);
+
+    doc.setFont("helvetica", "normal");
+    let y = 85;
     const salto = 7;
-
-    doc.setFont("helvetica", "normal");
-    doc.text(`Babahoyo, ${new Date().toLocaleDateString()}`, 20, y); y += salto;
-    doc.setFont("helvetica", "bold");
-    doc.text("PARA:", 20, y);
-    doc.setFont("helvetica", "normal");
-    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, y); y += salto;
-    doc.setFont("helvetica", "bold");
-    doc.text("Asunto:", 20, y);
-    doc.setFont("helvetica", "normal");
-    doc.text("Reporte de Falla en Infraestructura", 40, y); y += salto * 2;
 
     doc.text(`Yo, ${nombre}, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla:`, 20, y); y += salto;
     doc.text(`Tipo de Falla: ${tipoFalla}`, 20, y); y += salto;
     doc.text(`Descripción:`, 20, y); y += salto;
     doc.text(doc.splitTextToSize(descripcion, 170), 25, y); y += salto * 3;
-    doc.text(`Código del Producto: ${codigoProducto}`, 20, y); y += salto;
+
+    doc.text(`Frecuencia: ${frecuencia}`, 20, y); y += salto;
+    doc.text(`¿Afecta las actividades?: ${afecta}`, 20, y); y += salto;
+    doc.text(`¿Reportado anteriormente?: ${reportado}`, 20, y); y += salto;
+
     doc.text(`Solución sugerida:`, 20, y); y += salto;
     doc.text(doc.splitTextToSize(solucion, 170), 25, y); y += salto * 3;
-    doc.text(`Correo de contacto: ${email}`, 20, y); y += salto * 2;
 
-    // Insertar evidencia si está disponible
-    if (evidenciaBase64) {
-      doc.text("Evidencia fotográfica:", 20, y); y += salto;
-      doc.addImage(evidenciaBase64, "JPEG", 20, y, 100, 75);
+    if (comentario) {
+      doc.text(`Comentarios adicionales:`, 20, y); y += salto;
+      doc.text(doc.splitTextToSize(comentario, 170), 25, y); y += salto * 3;
     }
 
-    doc.save(`Reporte_Falla_UTB_${nombre}.pdf`);
-  }
+    doc.text(`Correo de contacto: ${email}`, 20, y);
+
+    // Logo más grande, centrado y ubicado un poco más arriba
+    const img = new Image();
+    img.src = "data:image/jpeg;base64,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";
+
+    img.onload = () => {
+      const pageWidth = doc.internal.pageSize.width;
+      const pageHeight = doc.internal.pageSize.height;
+
+      const imgWidth = 60;
+      const imgHeight = 60;
+      const imgX = (pageWidth - imgWidth) / 2;
+      const imgY = pageHeight - 60;
+
+      doc.addImage(img, "PNG", imgX, imgY, imgWidth, imgHeight);
+      doc.save(`Reporte_Falla_UTB_${nombre}.pdf`);
+    };
+  };
+
+  document.getElementById("generatePDFiPhone").onclick = function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const nombre = document.getElementById("nombre").value;
+    const facultad = document.getElementById("facultad").value;
+    const carrera = document.getElementById("carrera").value;
+    const curso = document.getElementById("curso").value;
+    const email = document.getElementById("email").value;
+    const rol = document.getElementById("rol").value;
+    const tipoFalla = document.getElementById("tipoFalla").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const frecuencia = document.getElementById("frecuencia").value;
+    const afecta = document.getElementById("afecta").value;
+    const fecha = document.getElementById("fecha").value;
+    const reportado = document.getElementById("reportado").value;
+    const solucion = document.getElementById("solucion").value;
+    const comentario = document.getElementById("comentario").value;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("UNIVERSIDAD TÉCNICA DE BABAHOYO", 105, 20, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Facultad: ${facultad}`, 20, 30);
+    doc.text(`Carrera: ${carrera}`, 20, 37);
+    doc.text(`Curso: ${curso}`, 20, 44);
+    doc.text(`Babahoyo, ${fecha}`, 20, 54);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("PARA:", 20, 65);
+    doc.setFont("helvetica", "normal");
+    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, 65);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Asunto:", 20, 75);
+    doc.setFont("helvetica", "normal");
+    doc.text("Reporte de Falla en Infraestructura", 40, 75);
+
+    doc.setFont("helvetica", "normal");
+    let y = 85;
+    const salto = 7;
+
+    doc.text(`Yo, ${nombre}, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla:`, 20, y); y += salto;
+    doc.text(`Tipo de Falla: ${tipoFalla}`, 20, y); y += salto;
+    doc.text(`Descripción:`, 20, y); y += salto;
+    doc.text(doc.splitTextToSize(descripcion, 170), 25, y); y += salto * 3;
+
+    doc.text(`Frecuencia: ${frecuencia}`, 20, y); y += salto;
+    doc.text(`¿Afecta las actividades?: ${afecta}`, 20, y); y += salto;
+    doc.text(`¿Reportado anteriormente?: ${reportado}`, 20, y); y += salto;
+
+    doc.text(`Solución sugerida:`, 20, y); y += salto;
+    doc.text(doc.splitTextToSize(solucion, 170), 25, y); y += salto * 3;
+
+    if (comentario) {
+      doc.text(`Comentarios adicionales:`, 20, y); y += salto;
+      doc.text(doc.splitTextToSize(comentario, 170), 25, y); y += salto * 3;
+    }
+
+    doc.text(`Correo de contacto: ${email}`, 20, y);
+
+    doc.save(`Reporte_UTB_iPhone_${nombre}.pdf`);
+  };
 </script>
 
 </body>
 </html>
 
+
+Corrigeme este codigo y en vez de frecuencia, reportado ante y comentario adicional ponme codigo del producto y que se pueda enviar imagenes como evidencia y a la final generarme el pdf 
