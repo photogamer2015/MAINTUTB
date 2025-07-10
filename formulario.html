@@ -74,12 +74,14 @@
 
   <label for="rol">Rol:</label>
   <select id="rol" required>
+    <option>--Seleccionar</option>
     <option value="Estudiante">Estudiante</option>
     <option value="Docente">Docente</option>
   </select>
 
   <label for="tipoFalla">Tipo de Falla:</label>
   <select id="tipoFalla" required>
+    <option>--Seleccionar</option>
     <option value="Electricidad">Electricidad</option>
     <option value="Agua">Agua</option>
     <option value="Infraestructura">Infraestructura</option>
@@ -93,7 +95,7 @@
   <label for="codigoProducto">Código del Producto:</label>
   <input type="text" id="codigoProducto" required>
 
-  <label for="evidencia">Evidencia (imágenes solo formato jpg):</label>
+  <label for="evidencia">Evidencia (imágenes solo formato jpg y jpeg):</label>
   <input type="file" id="evidencia" accept="image/*" multiple>
 
   <button type="button" id="generatePDF">Generar PDF </button>
