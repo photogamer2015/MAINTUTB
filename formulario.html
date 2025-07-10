@@ -72,12 +72,6 @@
   <label for="curso">Curso:</label>
   <input type="text" id="curso" required>
 
-  <label for="nombre">Nombre y Apellido:</label>
-  <input type="text" id="nombre" required>
-
-  <label for="email">Correo Electrónico:</label>
-  <input type="email" id="email" required>
-
   <label for="rol">Rol:</label>
   <select id="rol" required>
     <option value="Estudiante">Estudiante</option>
@@ -99,18 +93,6 @@
   <label for="codigoProducto">Código del Producto:</label>
   <input type="text" id="codigoProducto" required>
 
-  <label for="afecta">¿Afecta actividades?</label>
-  <select id="afecta" required>
-    <option value="Sí">Sí</option>
-    <option value="No">No</option>
-  </select>
-
-  <label for="fecha">Fecha del problema:</label>
-  <input type="date" id="fecha" required>
-
-  <label for="solucion">Solución Sugerida:</label>
-  <textarea id="solucion" required></textarea>
-
   <label for="evidencia">Evidencia (imágenes solo formato jpg):</label>
   <input type="file" id="evidencia" accept="image/*" multiple>
 
@@ -124,18 +106,13 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const nombre = document.getElementById("nombre").value;
     const facultad = document.getElementById("facultad").value;
     const carrera = document.getElementById("carrera").value;
     const curso = document.getElementById("curso").value;
-    const email = document.getElementById("email").value;
     const rol = document.getElementById("rol").value;
     const tipoFalla = document.getElementById("tipoFalla").value;
     const descripcion = document.getElementById("descripcion").value;
     const codigoProducto = document.getElementById("codigoProducto").value;
-    const afecta = document.getElementById("afecta").value;
-    const fecha = document.getElementById("fecha").value;
-    const solucion = document.getElementById("solucion").value;
     const evidenciaFiles = document.getElementById("evidencia").files;
 
     doc.setFont("helvetica", "bold");
@@ -147,7 +124,6 @@
     doc.text(`Facultad: ${facultad}`, 20, 30);
     doc.text(`Carrera: ${carrera}`, 20, 37);
     doc.text(`Curso: ${curso}`, 20, 44);
-    doc.text(`Babahoyo, ${fecha}`, 20, 54);
 
     doc.setFont("helvetica", "bold");
     doc.text("PARA:", 20, 65);
@@ -163,20 +139,13 @@
     let y = 85;
     const salto = 7;
 
-    doc.text(`Yo, ${nombre}, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla:`, 20, y); y += salto;
+    doc.text(`Yo, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla:`, 20, y); y += salto;
     doc.text(`Tipo de Falla: ${tipoFalla}`, 20, y); y += salto;
     doc.text(`Descripción:`, 20, y); y += salto;
     doc.text(doc.splitTextToSize(descripcion, 170), 25, y); y += salto * 3;
 
     doc.text(`Código del Producto: ${codigoProducto}`, 20, y); y += salto;
-    doc.text(`¿Afecta las actividades?: ${afecta}`, 20, y); y += salto;
 
-    doc.text(`Solución sugerida:`, 20, y); y += salto;
-    doc.text(doc.splitTextToSize(solucion, 170), 25, y); y += salto * 3;
-
-    doc.text(`Correo de contacto: ${email}`, 20, y); y += salto * 2;
-
-    
     const addImagesToPDF = async () => {
       for (let i = 0; i < evidenciaFiles.length; i++) {
         const file = evidenciaFiles[i];
@@ -192,9 +161,8 @@
           doc.addImage(imgData, "JPEG", imgX, imgY, imgWidth, imgHeight);
           y += imgHeight + 10; 
 
-         
           if (i === evidenciaFiles.length - 1) {
-            doc.save(`Reporte_Falla_UTB_${nombre}.pdf`);
+            doc.save(`Reporte_Falla_UTB.pdf`);
           }
         };
 
@@ -207,10 +175,11 @@
       addImagesToPDF();
     } else {
       // Si no hay imágenes, guardar el PDF directamente
-      doc.save(`Reporte_Falla_UTB_${nombre}.pdf`);
+      doc.save(`Reporte_Falla_UTB.pdf`);
     }
   };
 </script>
 
 </body>
 </html>
+
