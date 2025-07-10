@@ -74,14 +74,12 @@
 
   <label for="rol">Rol:</label>
   <select id="rol" required>
-    <option>--Seleccionar--</option>
     <option value="Estudiante">Estudiante</option>
     <option value="Docente">Docente</option>
   </select>
 
   <label for="tipoFalla">Tipo de Falla:</label>
   <select id="tipoFalla" required>
-     <option>--Seleccionar--</option>
     <option value="Electricidad">Electricidad</option>
     <option value="Agua">Agua</option>
     <option value="Infraestructura">Infraestructura</option>
@@ -117,68 +115,81 @@
     const codigoProducto = document.getElementById("codigoProducto").value;
     const evidenciaFiles = document.getElementById("evidencia").files;
 
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text("UNIVERSIDAD TÉCNICA DE BABAHOYO", 105, 20, { align: "center" });
+    // Logo más grande, centrado y ubicado un poco más arriba
+    const img = new Image();
+    img.src = "data:image/jpeg;base64,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";
 
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Facultad: ${facultad}`, 20, 30);
-    doc.text(`Carrera: ${carrera}`, 20, 37);
-    doc.text(`Curso: ${curso}`, 20, 44);
+    img.onload = () => {
+      const pageWidth = doc.internal.pageSize.width;
+      const imgWidth = 60;
+      const imgHeight = 60;
+      const imgX = (pageWidth - imgWidth) / 2;
+      const imgY = 10; // Ajusta la posición vertical del logo
 
-    doc.setFont("helvetica", "bold");
-    doc.text("PARA:", 20, 65);
-    doc.setFont("helvetica", "normal");
-    doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, 65);
+      doc.addImage(img, "JPEG", imgX, imgY, imgWidth, imgHeight);
 
-    doc.setFont("helvetica", "bold");
-    doc.text("Asunto:", 20, 75);
-    doc.setFont("helvetica", "normal");
-    doc.text("Reporte de Falla en Infraestructura", 40, 75);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.text("UNIVERSIDAD TÉCNICA DE BABAHOYO", 105, 80, { align: "center" });
 
-    doc.setFont("helvetica", "normal");
-    let y = 85;
-    const salto = 7;
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Facultad: ${facultad}`, 20, 90);
+      doc.text(`Carrera: ${carrera}`, 20, 97);
+      doc.text(`Curso: ${curso}`, 20, 104);
+      
+      doc.setFont("helvetica", "bold");
+      doc.text("PARA:", 20, 115);
+      doc.setFont("helvetica", "normal");
+      doc.text("Sr. Decano de la Universidad Técnica de Babahoyo", 35, 115);
 
-    doc.text(`Yo, en calidad de ${rol.toLowerCase()}, reporto la siguiente falla:`, 20, y); y += salto;
-    doc.text(`Tipo de Falla: ${tipoFalla}`, 20, y); y += salto;
-    doc.text(`Descripción:`, 20, y); y += salto;
-    doc.text(doc.splitTextToSize(descripcion, 170), 25, y); y += salto * 3;
+      doc.setFont("helvetica", "bold");
+      doc.text("Asunto:", 20, 125);
+      doc.setFont("helvetica", "normal");
+      doc.text("Reporte de Falla en Infraestructura", 40, 125);
 
-    doc.text(`Código del Producto: ${codigoProducto}`, 20, y); y += salto;
+      doc.setFont("helvetica", "normal");
+      let y = 135;
+      const salto = 7;
 
-    const addImagesToPDF = async () => {
-      for (let i = 0; i < evidenciaFiles.length; i++) {
-        const file = evidenciaFiles[i];
-        const reader = new FileReader();
+      doc.text(`Tipo de Falla: ${tipoFalla}`, 20, y); y += salto;
+      doc.text(`Descripción:`, 20, y); y += salto;
+      doc.text(doc.splitTextToSize(descripcion, 170), 25, y); y += salto * 3;
 
-        reader.onload = function (event) {
-          const imgData = event.target.result;
-          const imgWidth = 170;
-          const imgHeight = (file.type === "image/jpeg" || file.type === "image/png") ? (imgWidth * 0.75) : imgWidth; // Ajustar altura según el tipo de imagen
-          const imgX = 20; 
-          const imgY = y; 
+      doc.text(`Código del Producto: ${codigoProducto}`, 20, y); y += salto;
 
-          doc.addImage(imgData, "JPEG", imgX, imgY, imgWidth, imgHeight);
-          y += imgHeight + 10; 
+      const addImagesToPDF = async () => {
+        for (let i = 0; i < evidenciaFiles.length; i++) {
+          const file = evidenciaFiles[i];
+          const reader = new FileReader();
 
-          if (i === evidenciaFiles.length - 1) {
-            doc.save(`Reporte_Falla_UTB.pdf`);
-          }
-        };
+          reader.onload = function (event) {
+            const imgData = event.target.result;
+            const imgWidth = 170;
+            const imgHeight = (file.type === "image/jpeg" || file.type === "image/png") ? (imgWidth * 0.75) : imgWidth; // Ajustar altura según el tipo de imagen
+            const imgX = 20; 
+            const imgY = y; 
 
-        reader.readAsDataURL(file);
+            doc.addImage(imgData, "JPEG", imgX, imgY, imgWidth, imgHeight);
+            y += imgHeight + 10; 
+
+            if (i === evidenciaFiles.length - 1) {
+              doc.save(`Reporte_Falla_UTB.pdf`);
+            }
+          };
+
+          reader.readAsDataURL(file);
+        }
+      };
+
+      // Si hay imágenes, agregar al PDF
+      if (evidenciaFiles.length > 0) {
+        addImagesToPDF();
+      } else {
+        // Si no hay imágenes, guardar el PDF directamente
+        doc.save(`Reporte_Falla_UTB.pdf`);
       }
     };
-
-    // Si hay imágenes, agregar al PDF
-    if (evidenciaFiles.length > 0) {
-      addImagesToPDF();
-    } else {
-      // Si no hay imágenes, guardar el PDF directamente
-      doc.save(`Reporte_Falla_UTB.pdf`);
-    }
   };
 </script>
 
